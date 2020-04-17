@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+ 
+  <title>Asynchronous JavaScript</title>
+</head>
+<body>
+  <h1>Asynchronous JavaScript</h1>
+  <!-- Callback and Promises -->
+  <script>
+    // // synchronous JavaScript
+    // const second = () => {
+    //   // console.log('Second')
+    //   setTimeout(() => {
+    //     console.log('Async hey there')
+    //   }, 2000);
+    // };
+
+    // const first = () => {
+    //   console.log('hey there')
+    //   second();
+    //   console.log('The end')
+    // };
+    // first();
+    
+    // Asyn with callback
+    // function getRecipe(){
+    //   setTimeout(() => {
+    //     const recipeId = [532,88,432,974];
+    //     console.log(recipeId);
+
+    //     setTimeout((id)=>{
+    //       const recipe = {
+    //         title: "Fresh Tomato", 
+    //         publish: 'Jonas'
+    //         };
+    //         console.log(`${id}: ${recipe.title}`);
+
+    //         setTimeout(publisher =>{
+    //           const recipe2 = {
+    //             title: 'Italian Pizza',
+    //             publisher: 'Jonas'
+    //           };
+    //           console.log(recipe);
+    //         },1500, recipe.publisher);
+
+    //     },1500, recipeId[2]);
+
+    //   }, 1500);
+    // }
+    // getRecipe();
+
+    // Promises
+    // const getIDs = new Promise((resolve, reject)=>{
+    //   setTimeout(()=>{
+    //     resolve([523,883,432,974]);
+    //   },1500);
+    // });
+
+    // const getRecipe = recID => {
+    //   return new Promise((resolve, reject) => {
+    //     setTimeout(ID => {
+    //       const recipe = {
+    //         title: 'Fresh tomato pasta',
+    //         publisher: 'Jonas'
+    //       };
+    //       resolve(`${ID}: ${recipe.title}`);
+    //     }, 1500, recID);
+    //   });
+    // };
+
+    // const getRelated = publisher => {
+    //   return new Promise((resolve, reject) => {
+    //     setTimeout(pub => {
+    //       const recipe = {
+    //         title: 'Italian Pizza', 
+    //         publisher: 'Jonas'};
+    //         resolve(`${pub}: ${recipe.title}`);
+    //     }, 1500, publisher);
+    //   });
+    // };
+    
+    // getIDs
+    // .then(IDs => {
+    //   console.log(IDs);
+    //   return getRecipe(IDs[2]);
+    // })
+    // .then(recipe => {
+    //   console.log(recipe);
+    //   return getRelated('Jonas');
+    // })
+    // .then(recipe => {
+    //   console.log(recipe);
+    // })
+    // .catch(error => {
+    //   console.log('Error!');
+    // })
+
+  </script>
+  <!-- Async/Await -->
+  <script>
+
+    // const getIDs = new Promise((resolve, reject)=>{
+    //   setTimeout(()=>{
+    //     resolve([523,883,432,974]);
+    //   },1500);
+    // });
+
+    // const getRecipe = recID => {
+    //   return new Promise((resolve, reject) => {
+    //     setTimeout(ID => {
+    //       const recipe = {
+    //         title: 'Fresh tomato pasta',
+    //         publisher: 'Jonas'
+    //       };
+    //       resolve(`${ID}: ${recipe.title}`);
+    //     }, 1500, recID);
+    //   });
+    // };
+
+    // const getRelated = publisher => {
+    //   return new Promise((resolve, reject) => {
+    //     setTimeout(pub => {
+    //       const recipe = {
+    //         title: 'Italian Pizza', 
+    //         publisher: 'Jonas'};
+    //         resolve(`${pub}: ${recipe.title}`);
+    //     }, 1500, publisher);
+    //   });
+    // };
+    // // Async function runs in the background and await functions can only run inside async functions
+    // async function getRecipeAw(){
+    //   const IDs = await getIDs;
+    //   console.log(IDs);
+    //   const recipe = await getRecipe(IDs[2]);
+    //   console.log(recipe);
+    //   const related = await getRelated('Jonas');
+    //   console.log(related);
+
+    //   return recipe;
+    // }
+    // getRecipeAw().then(result => console.log(`${result} is the best ever!`));
+    
+  </script>
+
+  <!-- Making AJAX Calls with Fetch and Asyn/Await-->
+  <script>
+    function getWeather(woeid){
+      fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`)
+      .then(result => {
+        // console.log(result);
+        return result.json();
+      })
+      .then(data => {
+        // console.log(data);
+        const today = data.consolidated_weather[0];
+        console.log(`temperatures today in ${data.title} stay between ${today.min_temp} and ${today.max_temp}.`)
+      })
+      .catch(error => {
+        console.log("No location")
+      });
+    }
+    getWeather('2487956');
+    getWeather('44418');
+    // // getWeather('343434342432423234');
+  </script>
+
+  <!-- Async/Await -->
+  <script>
+    async function getWeatherAW(woeid) {
+      try{
+        const result = await fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`);
+
+        const data = await result.json();
+
+        const tomorrow = data.consolidated_weather[1];
+
+        console.log(`Temperature tomorrow in ${data.title} stay between ${tomorrow.min_temp} and ${tomorrow.max_temp.toFixed(2)}.`);
+
+        return data;
+      }catch(error){
+        alert(error);
+      }
+    }
+    getWeatherAW(2487956);
+    
+    let dataLondon;
+    getWeatherAW(44418).then(data => {
+      dataLondon = data;
+      console.log(dataLondon);
+      });
+  </script>
+</body>
+</html>
